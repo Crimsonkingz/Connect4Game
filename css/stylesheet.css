@@ -1,0 +1,47 @@
+
+body {
+	width: 100%;
+	height: auto;
+}
+ /*need some help with these sizes and stuff */
+#gameContainer {
+	top: 0;
+	left: 0;
+	width: 700px;
+	height: 600px;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 2px;
+	background-color: #FFF;
+	z-index: 0;
+}
+#gameGrid {
+	left: 50%;
+    transform: translateX(-50%);
+	background-color: blue;
+	z-index: 1;
+	
+}
+#gameGrid > div {
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	margin: 2px;
+	padding: 1px;
+	border-radius: 100%;
+	z-index: 2;
+}
+.empty {
+	background-color: #FFF;
+	
+}
+
+.player {
+	background-color: red;
+	
+}
+
+.computer {
+	background-color: yellow;
+	
+}
