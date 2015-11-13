@@ -11,12 +11,12 @@ var gameGridArray = [];
 
 // Game grid that will hold all of the divs
 var gameGrid = document.getElementById("gameGrid");
-console.log(gameGrid);
+
 // Initialise start settings for the game
 function init() {
 
 	// If the game grid is already populated and needs to be cleared
-	if (gameGrid.children !== null) {
+	if (gameGrid.children !== null && gameGrid.children.length !== 0) {
 		
 		for (var i = 0; i < gameGrid.length; i++) {}
 		gameGrid.removeChild(gameGrid.children[i]);
@@ -40,36 +40,80 @@ function makeGameGridDivs(numRows, numColumns) {
 
 	// Make desired number of rows (numRows)
 	for (var row = 0; row < numRows; row++) {
-
-		// Make a row array that will go inside a second array to make the grid
+		
+		// Create row container and assign it a row class and row number ID
+		var rowContainer = document.createElement("div");
+		rowContainer.id = "row" + row;
+		rowContainer.classList.add("row");
+		
 	  
 	  
-	  // Make an entry for the number of columns i.e. the length of the row
-	  for (var column = 0; column  < numColumns; column++) {
+	  	// Make an entry for the number of columns i.e. the length of the row
+	  	for (var column = 0; column  < numColumns; column++) {
 	  	
 	  		// Fill with a div with ID for it's position and class for it's value/colour
 			var div = document.createElement("div");
 
 			// backslashes are "escape" characters like "\n" for new line
 			// so need two backslashes to output a single backslash
-
-			div.id = "row" + row + "\\" + "column: " + column;
+			div.id = "column" + column;
+			div.classList.add("slot");
 			div.classList.add("empty");
+			
+			div.addEventListener("click", playerTokenChoice);
 
-			// If this div is the last one of the line then change to display:block to place the next div on a new line
-			if (column-1/numColumns === 1) {
-				div.style.display = "block";
-			}
+			rowContainer.appendChild(div);
 
+		}
 
-
-			// Fill the grid with uniqueID "empty" div
-			gameGridArray.push(div);
+	gameGridArray.push(rowContainer);
 	    
-	  }
+	}
+}	
 
+function playerTokenChoice() {
+	
+	var clickedDiv = this;
+	
+	if (legalMove(clickedDiv)) {
+		clickedDiv.classList.toggle("empty");
+		clickedDiv.classList.toggle("player");
 	}
 }
+
+function legalMove(clickedToken) {
+	
+	// Get the column of the clicked token
+	var tokenColumnId = clickedToken.id;	
+	// Get the row from the row parent container
+	var parentRowId = clickedToken.parentNode.id;
+
+	// Get the row and column IDs as numbers
+	var tokenRow = parseInt(parentRowId.substr(3,1));
+	var tokenColumn = parseInt(tokenColumnId.substr(6,1));
+	
+	// If the user clicked on a token in the last row then it is a legal move
+	if (tokenRow == gameGridArray.length-1) {
+		return true;
+	}
+
+	else {
+		// Get the 
+		var rowBelow = gameGrid.childNodes[(tokenRow + 1)];		
+		var tokenBelow = rowBelow.childNodes[tokenColumn];
+		
+
+		if (!tokenBelow.classList.contains("empty")) {
+			return true;
+		}
+
+		else {
+			return false;
+		}
+	}	
+	
+}
+
 
 // Puts the divs/game slots into the game grid
 function populateGrid(gameDivArray) {

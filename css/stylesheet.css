@@ -1,36 +1,54 @@
 
 body {
+
 	width: 100%;
 	height: auto;
+
 }
  /*need some help with these sizes and stuff */
 #gameContainer {
-	top: 0;
-	left: 0;
-	width: 700px;
-	height: 600px;
-	box-sizing: border-box;
-	margin: 0;
-	padding: 2px;
+
+	margin: 0 auto;
 	background-color: #FFF;
 	z-index: 0;
+	top: 0;
+	left: 0;
+	width: 1000px;
+	height: auto;
 }
+
 #gameGrid {
-	left: 50%;
-    transform: translateX(-50%);
+
+	margin: 5% auto;	
+	box-sizing: border-box;
+	text-align: center;
+	padding-bottom: 10px;
 	background-color: blue;
 	z-index: 1;
 	
 }
-#gameGrid > div {
-	width: 10px;
-	height: 10px;
-	display: inline-block;
-	margin: 2px;
-	padding: 1px;
-	border-radius: 100%;
+
+#gameGrid div .row {
+
+	display: block;
+	width: 700px;
+	height: auto;
 	z-index: 2;
 }
+
+#gameGrid div .slot {
+
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	border-radius: 100%;
+	box-sizing: border-box;
+	margin: 2px;
+	z-index: 3;	
+	
+
+}
+
 .empty {
 	background-color: #FFF;
 	
