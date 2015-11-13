@@ -5,16 +5,23 @@
 // The divs have ID's with "row:(rowNum)_column:(columnNum)" with romNum and columnNum being it's position in the array
 // and classes of either "empty", "player" or "computer"
 // Player will be one colour and Computer will be another colour
+// Player starts first as it is an advantage (want player to win more)
 
 // Array to hold all the created div elements/game discs
 var gameGridArray = [];
 
+// Store win/loss state
+var gameWon;
+var difficulty;
 // Game grid that will hold all of the divs
 var gameGrid = document.getElementById("gameGrid");
 
 // Initialise start settings for the game
-function init() {
-
+function init(difficultyChoice) {
+	// Reset game state
+	gameWon = false;
+	// Initialise difficulty
+	difficulty = difficultyChoice;
 	// If the game grid is already populated and needs to be cleared
 	if (gameGrid.children !== null && gameGrid.children.length !== 0) {
 		
@@ -71,6 +78,13 @@ function makeGameGridDivs(numRows, numColumns) {
 	}
 }	
 
+// Puts the divs/game slots into the game grid
+function populateGrid(gameDivArray) {
+	for (var i = 0; i < gameDivArray.length; i++) {
+		gameGrid.appendChild(gameDivArray[i]);
+	}
+}
+
 // Player click handler 
 function playerTokenChoice() {
 	
@@ -84,11 +98,38 @@ function playerTokenChoice() {
 
 		// Remove click event listener
 		clickedDiv.removeEventListener("click", playerTokenChoice);
+		setTimeout(computerTokenChoice, 500);
 	}
 }
 
 // Build simple computer AI
-function computerTokenChoice() {}
+function computerTokenChoice() {
+	var rows = gameGrid.childNodes;
+	var slot;
+	var moves = [];
+	var rowMoves;
+	for (var i = 0; i < rows.length; i++) {
+		slot = rows[i];
+		if (slot.classList.contains("player") || slot.classList.contains("computer")) {
+			moves.push(generateMoves(rows[i]));
+
+
+		}
+	}
+	// Chance to pick randomly based on difficulty
+			if (difficulty.toUpperCase() == "EASY") {
+				
+			}
+			if (difficulty.toUpperCase() == "MEDIUM") {
+				
+			}
+			if (difficulty.toUpperCase() == "HARD") {
+				
+			}
+	// Look ahead for 1 move to see possible responses a player could make to the computer's move
+	// Rank each by a +ve or -ve value according to a good/bad/even outcome
+
+}
 
 
 function legalMove(clickedToken) {
@@ -101,14 +142,15 @@ function legalMove(clickedToken) {
 	// Get the row and column IDs as numbers
 	var tokenRow = parseInt(parentRowId.substr(3,1));
 	var tokenColumn = parseInt(tokenColumnId.substr(6,1));
-	
+	var emptyPos = clickedToken.classList.contains("empty");
 	// If the clicked token is in the last row and isn't already occupied then it is a legal move
-	if (tokenRow == gameGridArray.length-1 && clickedToken.classList.contains("player") && clickedToken.classList.contains("computer")) {
+	// This avoids serching the next row's cells if clicking on the last row -> null values
+	if (tokenRow == gameGridArray.length-1 && emptyPos) {
 		return true;
 	}
 
 	// If the clicked token is occupied then it is an illegal move
-	if (clickedToken.classList.contains("player") || clickedToken.classList.contains("computer")) {
+	else if (!emptyPos) {
 		return false;
 	}
 	else {
@@ -129,12 +171,22 @@ function legalMove(clickedToken) {
 	
 }
 
+// Builds an array of legal moves for the row
+function generateMoves(row) {
+	
+	var choices = row.childNodes;
+	var slotChoice;
+	var rowLegals = [];
+	// Build array of possible choices
+	for (var i = 0; i < choices.length; i++) {
+		slotChoice = choices[i];
 
-// Puts the divs/game slots into the game grid
-function populateGrid(gameDivArray) {
-	for (var i = 0; i < gameDivArray.length; i++) {
-		gameGrid.appendChild(gameDivArray[i]);
+		if (legalMove(slotChoice)) {
+			rowLegals.push(slotChoice)
+		}
 	}
+	return rowLegals;
 }
 
-init();
+
+init("EASY");
