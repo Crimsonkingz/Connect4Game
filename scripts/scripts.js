@@ -71,15 +71,25 @@ function makeGameGridDivs(numRows, numColumns) {
 	}
 }	
 
+// Player click handler 
 function playerTokenChoice() {
 	
 	var clickedDiv = this;
 	
+	// If the clicked on slot is a legal move
 	if (legalMove(clickedDiv)) {
+		// Remove empty class and replace with player class
 		clickedDiv.classList.toggle("empty");
 		clickedDiv.classList.toggle("player");
+
+		// Remove click event listener
+		clickedDiv.removeEventListener("click", playerTokenChoice);
 	}
 }
+
+// Build simple computer AI
+function computerTokenChoice() {}
+
 
 function legalMove(clickedToken) {
 	
