@@ -102,21 +102,26 @@ function legalMove(clickedToken) {
 	var tokenRow = parseInt(parentRowId.substr(3,1));
 	var tokenColumn = parseInt(tokenColumnId.substr(6,1));
 	
-	// If the user clicked on a token in the last row then it is a legal move
-	if (tokenRow == gameGridArray.length-1) {
+	// If the clicked token is in the last row and isn't already occupied then it is a legal move
+	if (tokenRow == gameGridArray.length-1 && clickedToken.classList.contains("player") && clickedToken.classList.contains("computer")) {
 		return true;
 	}
 
+	// If the clicked token is occupied then it is an illegal move
+	if (clickedToken.classList.contains("player") || clickedToken.classList.contains("computer")) {
+		return false;
+	}
 	else {
-		// Get the 
+
+		// Get the token below the one clicked
 		var rowBelow = gameGrid.childNodes[(tokenRow + 1)];		
 		var tokenBelow = rowBelow.childNodes[tokenColumn];
 		
-
+		// If the token below isnt empty then it is a legal move
 		if (!tokenBelow.classList.contains("empty")) {
 			return true;
 		}
-
+		// If there isn't a token below then it is an illegal move
 		else {
 			return false;
 		}
