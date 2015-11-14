@@ -12,7 +12,7 @@ var gameGridArray = [];
 
 // Store win/loss state
 var gameWon;
-var difficulty;
+var randomChoice;
 // Game grid that will hold all of the divs
 var gameGrid = document.getElementById("gameGrid");
 
@@ -20,8 +20,22 @@ var gameGrid = document.getElementById("gameGrid");
 function init(difficultyChoice) {
 	// Reset game state
 	gameWon = false;
-	// Initialise difficulty
-	difficulty = difficultyChoice;
+	
+	
+
+	// Chance to pick randomly based on difficulty
+			if (difficultyChoice.toUpperCase() == "EASY") {
+				// 60% chance to choose randomly
+				randomChoice = 0.6; 
+			}
+			if (difficultyChoice.toUpperCase() == "MEDIUM") {
+				// 40% chance to choose randomly
+				randomChoice = 0.4;
+			}
+			if (difficultyChoice.toUpperCase() == "HARD") {
+				// 20% chance to choose randomly
+				randomChoice = 0.2;				
+			}
 	// If the game grid is already populated and needs to be cleared
 	if (gameGrid.children !== null && gameGrid.children.length !== 0) {
 		
@@ -116,16 +130,7 @@ function computerTokenChoice() {
 
 		}
 	}
-	// Chance to pick randomly based on difficulty
-			if (difficulty.toUpperCase() == "EASY") {
-				
-			}
-			if (difficulty.toUpperCase() == "MEDIUM") {
-				
-			}
-			if (difficulty.toUpperCase() == "HARD") {
-				
-			}
+	
 	// Look ahead for 1 move to see possible responses a player could make to the computer's move
 	// Rank each by a +ve or -ve value according to a good/bad/even outcome
 
