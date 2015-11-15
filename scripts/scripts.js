@@ -16,6 +16,11 @@ var randomChoice;
 // Game grid that will hold all of the divs
 var gameGrid = document.getElementById("gameGrid");
 
+// Store possible moves of the computer
+var rowLegals = [];
+var computerMoves = [];
+
+
 // Initialise start settings for the game
 function init(difficultyChoice) {
 	// Reset game state
@@ -112,27 +117,36 @@ function playerTokenChoice() {
 
 		// Remove click event listener
 		clickedDiv.removeEventListener("click", playerTokenChoice);
-		setTimeout(computerTokenChoice, 500);
+		checkWin();
+		if (!gameWon) {
+			setTimeout(computerTokenChoice, 500);
+		}		
 	}
 }
 
 // Build simple computer AI
 function computerTokenChoice() {
 	var rows = gameGrid.childNodes;
-	var slot;
-	var moves = [];
-	var rowMoves;
+	
+	computerMoves.length = 0;
+	rowLegals.length = 0;
+
 	for (var i = 0; i < rows.length; i++) {
-		slot = rows[i];
-		if (slot.classList.contains("player") || slot.classList.contains("computer")) {
-			moves.push(generateMoves(rows[i]));
-
-
-		}
+		
+		currentRow = rows[i];
+		computerMoves.push(generateMoves(currentRow));
+		
 	}
 	
-	// Look ahead for 1 move to see possible responses a player could make to the computer's move
-	// Rank each by a +ve or -ve value according to a good/bad/even outcome
+	var rowNum = Math.floor(Math.random() * computerMoves.length);
+	var columnNum = Math.floor(Math.random() * computerMoves[rowNum].length);
+
+
+	var chosenDiv = computerMoves[rowNum][columnNum];
+
+	chosenDiv.classList.toggle("empty");
+	chosenDiv.classList.toggle("computer");
+	chosenDiv.removeEventListener("click", playerTokenChoice);
 
 }
 
@@ -148,9 +162,11 @@ function legalMove(clickedToken) {
 	var tokenRow = parseInt(parentRowId.substr(3,1));
 	var tokenColumn = parseInt(tokenColumnId.substr(6,1));
 	var emptyPos = clickedToken.classList.contains("empty");
+
+
 	// If the clicked token is in the last row and isn't already occupied then it is a legal move
 	// This avoids serching the next row's cells if clicking on the last row -> null values
-	if (tokenRow == gameGridArray.length-1 && emptyPos) {
+	if (tokenRow == (gameGridArray.length - 1) && emptyPos) {
 		return true;
 	}
 
@@ -158,6 +174,7 @@ function legalMove(clickedToken) {
 	else if (!emptyPos) {
 		return false;
 	}
+
 	else {
 
 		// Get the token below the one clicked
@@ -180,8 +197,9 @@ function legalMove(clickedToken) {
 function generateMoves(row) {
 	
 	var choices = row.childNodes;
+	
 	var slotChoice;
-	var rowLegals = [];
+	
 	// Build array of possible choices
 	for (var i = 0; i < choices.length; i++) {
 		slotChoice = choices[i];
@@ -190,8 +208,13 @@ function generateMoves(row) {
 			rowLegals.push(slotChoice)
 		}
 	}
+	
 	return rowLegals;
+	
 }
 
+function checkWin() {
+
+}
 
 init("EASY");
