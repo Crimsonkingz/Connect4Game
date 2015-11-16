@@ -119,7 +119,7 @@ function playerTokenChoice() {
 		clickedDiv.removeEventListener("click", playerTokenChoice);
 		checkWin();
 		if (!gameWon) {
-			setTimeout(computerTokenChoice, 500);
+			setTimeout(computerTokenChoice, 1000);
 		}		
 	}
 }

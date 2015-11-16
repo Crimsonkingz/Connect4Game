@@ -22,7 +22,9 @@ body {
 	margin: 5% auto;	
 	box-sizing: border-box;
 	text-align: center;
-	padding-bottom: 10px;
+	padding-bottom: 20px;
+	padding-left: 0;
+	padding-right: 0;
 	background-color: blue;
 	z-index: 1;
 	
@@ -49,17 +51,32 @@ body {
 
 }
 
+@keyframes coinRotateRed {
+    0% {background-color: white;}
+    100% {transform: rotateY(180deg); background-color: red;}
+}
+
+@keyframes coinRotateYellow {
+    0% {background-color: white;}
+    100% {transform: rotateY(180deg); background-color: yellow;}
+}
+
+
 .empty {
 	background-color: #FFF;
 	
 }
 
 .player {
-	background-color: red;
+	animation-name: coinRotateRed;
+    animation-duration: 1s;
+	animation-fill-mode: forwards;
 	
 }
 
 .computer {
-	background-color: yellow;
+	animation-name: coinRotateYellow;
+    animation-duration: 1s;
+	animation-fill-mode: forwards;
 	
 }
